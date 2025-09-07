@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const formSchema = z.object({
     name: z.string().min(1, {message: "Name is required!"}),
@@ -234,7 +235,7 @@ const onSocial = (provider: "google" | "github") => {
 
 
                    <div className="bg-radial from-green-700 to-green-900 relative hidden md:flex flex-col gap-y-4 items-center justify-center">
-                        <img src="./logo.svg" alt="Image" className="h-[92px] w-[92px]"/>
+                        <Image src="./logo.svg" alt="Image" className="h-[92px] w-[92px]"/>
                         <p className="text-2xl font-semibold text-white">
                             Meet.AI
                         </p>
