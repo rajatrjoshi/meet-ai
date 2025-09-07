@@ -1,11 +1,19 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "@/db";
+
+// Lazy load the database connection
+const getDb = async () => {
+  const { db } = await import("@/db");
+  return db;
+};
 
 export const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: "pg",
-  }),
+  database: async () => {
+    const db = await getDb();
+    return drizzleAdapter(db, {
+      provider: "pg",
+    });
+  },
   emailAndPassword: {
     enabled: true,
   },
@@ -19,4 +27,6 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
     },
   },
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  secret: process.env.BETTER_AUTH_SECRET || "default-secret-key",
 });
